@@ -1,0 +1,122 @@
+body {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+}
+
+#root {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    overflow-x: hidden;
+}
+
+.backdrop-container {
+    color:#ffffff8c
+}
+.background-card {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    background-color: #ffffff;
+    z-index: 0;
+    //opacity: 0.9;
+}
+
+.triangle-bottomleft {
+    position: fixed;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-bottom: 250px solid #cc2229;
+    border-right: 450px solid transparent;
+    z-index: 1;
+    opacity: 0.9;
+}
+
+.triangle-bottomright {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-bottom: 190px solid #afb0b2;
+    border-left: 295px solid transparent;
+}
+
+.App {
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    //top: -21px;
+
+
+    .image-logo {
+        margin-top: 18px;
+        width: 225px;
+    }
+
+    .clock-logo {
+        width: 100%;
+        font-size: 42px;
+        color: #bbbbbb;
+
+    }
+
+    .date-container {
+        padding: 0;
+        margin: 0;
+        color: #a5a5a5;
+        text-transform: capitalize;
+        font-size: 13px;
+    }
+
+
+}
+
+.App-logo {
+    height: 40vmin;
+    pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .App-logo {
+        animation: App-logo-spin infinite 20s linear;
+    }
+}
+
+.App-header {
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+
+.App-link {
+    color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}

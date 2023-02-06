@@ -1,23 +1,34 @@
+import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
+import Home from '../src/components/home';
 import './App.css';
+import Backdrop from '@mui/material/Backdrop';
+import '../src/styles/globals.scss';
+import '../src/styles/App.scss';
+import icoLogo from '../src/assets/carLogo.png';
+import CircularProgress from '@mui/material/CircularProgress';
+import BackgroundCard from '../src/assets/backgroundCard.webp';
 
 function App() {
+  const [open, setOpen] = useState(false);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <img src={BackgroundCard} className="background-card" />
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={open}
+      >
+        <img
+          src={icoLogo}
+          style={{ position: 'absolute', width: '38px', height: '38px' }}
+        />
+        <CircularProgress
+          className="backdrop-container"
+          color="inherit"
+          size={60}
+        />
+      </Backdrop>
+      <Home setOpen={setOpen} />
     </div>
   );
 }
