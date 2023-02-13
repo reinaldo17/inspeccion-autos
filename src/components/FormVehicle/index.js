@@ -18,44 +18,10 @@ export default function FormVehicle(props) {
   const { setIsLogged, setOpen } = props;
   const onSubmit = (data) => console.log(data);
 
-  const logout = () => {
-    setOpen(true);
-    setTimeout(() => {
-      setOpen(false);
-      sessionStorage.setItem('isUserLogged', false);
-      setIsLogged(false);
-    }, 1000);
-  };
-
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="form-vehicle">
       <h6 className="title-section-form">Formulario de Vehiculo</h6>
-      <div style={{ position: 'relative' }}>
-        <TextField
-          sx={{
-            '& .MuiFormLabel-root': {
-              fontSize: '0.8rem',
-            },
-          }}
-          className="container-search-input text-field-full-width"
-          id="search"
-          color={'error'}
-          variant="standard"
-          name="searchVehicle"
-          value={searchVehicle}
-          label="Buscar Vehiculo"
-          onChange={(event) => setSearchVehicle(event.target.value)}
-        />
-        <img
-          onClick={() => alert('add')}
-          src={AddIcon}
-          style={{
-            position: 'absolute',
-            top: '30px',
-            right: '5px',
-          }}
-        />
-      </div>
+
       <div className="container-inputs-3">
         <div className="input-label">
           <label>Nro Placa</label>
@@ -122,9 +88,6 @@ export default function FormVehicle(props) {
         <h6 className="title-section-form">Trabajos Realizados</h6>
         <TableWorks />
       </div>
-      <button onClick={logout} className="form-control-button">
-        Cerrar Sesión
-      </button>
     </form>
   );
 }

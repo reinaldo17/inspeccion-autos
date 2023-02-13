@@ -12,19 +12,34 @@ export default function Home(props) {
       ? false
       : JSON.parse(sessionStorage.getItem('isUserLogged'))
   );
+  const [inspectionSelected, set] = useState([]);
 
   useEffect(() => {
     console.log(sessionStorage.getItem('isUserLogged'));
   }, []);
+
+  const logout = () => {
+    setOpen(true);
+    setTimeout(() => {
+      setOpen(false);
+      sessionStorage.setItem('isUserLogged', false);
+      setIsLogged(false);
+    }, 1000);
+  };
 
   //
 
   return (
     <div className="home-container">
       {isLogged ? (
-        <FormVehicle setIsLogged={setIsLogged} setOpen={setOpen} />
+        <>
+          <FormVehicle setOpen={setOpen} />
+          <button onClick={logout} className="form-control-button">
+            Cerrar Sesión
+          </button>
+        </>
       ) : (
-        <Login setIsLogged={setIsLogged} setOpen={setOpen} />
+        <Login setOpen={setOpen} />
       )}
     </div>
   );

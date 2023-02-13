@@ -1,16 +1,4 @@
-.form-control-button {
-    color: white;
-    background: #ff7f4f;
-    padding: 10px 20px;
-    margin-top: 25px;
-    border: solid 2px #d3593269;
-    border-radius: 10px;
-    font-weight: bold;
-    font-size: 12px;
-
-    margin-bottom: 10px;
-}
-.form-login {
+.form-vehicle {
     background-color: #ffffff;
     position: relative;
     width: 80%;
@@ -23,30 +11,6 @@
     -moz-box-shadow: 0px 0px 5px 0px rgba(76,86,92,1);
     box-shadow: 0px 0px 5px 0px rgba(76,86,92,1);
     overflow: auto;
-
-    .img-login {
-        width: 100px;
-        margin: auto;
-        display: block;
-        margin-top: 20px;
-        -webkit-box-shadow: 10px 10px 5px 0px rgba(232,232,232,1);
-        -moz-box-shadow: 10px 10px 5px 0px rgba(232,232,232,1);
-        box-shadow: 10px 10px 5px 0px rgba(232,232,232,1);
-        border-radius: 50px;
-    }
-    .form-control-button {
-        color: white;
-        background: #ff7f4f;
-        padding: 10px 20px;
-        margin-top: 25px;
-        border: solid 2px #d3593269;
-        border-radius: 10px;
-        font-weight: bold;
-        font-size: 12px;
-        -webkit-box-shadow: 2px 4px 5px 0px rgba(232,232,232,1);
-        -moz-box-shadow: 2px 4px 5px 0px rgba(232,232,232,1);
-        box-shadow: 2px 4px 5px 0px rgba(232,232,232,1);
-    }
 
     .title-section-form {
         color: #e87510;
