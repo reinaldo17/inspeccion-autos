@@ -5,6 +5,8 @@ import './styles.scss';
 import TableWorks from '../tableWorks';
 import TextField from '@mui/material/TextField';
 import AddIcon from '../../assets/add.png';
+import InspectionHome from '../inpectionsHome';
+import Button from 'react-bootstrap/Button';
 
 export default function FormVehicle(props) {
   const {
@@ -15,79 +17,97 @@ export default function FormVehicle(props) {
     formState: { errors },
   } = useForm();
   const [searchVehicle, setSearchVehicle] = useState('');
+  const [openVehicle, setOpenVehicle] = useState(false);
   const { setIsLogged, setOpen } = props;
   const onSubmit = (data) => console.log(data);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="form-vehicle">
-      <h6 className="title-section-form">Formulario de Vehiculo</h6>
+    <>
+      {openVehicle ? (
+        <form onSubmit={handleSubmit(onSubmit)} className="form-vehicle">
+          <h6 className="title-section-form">Vehiculo</h6>
 
-      <div className="container-inputs-3">
-        <div className="input-label">
-          <label>Nro Placa</label>
-          <input {...register('placa')} />
-        </div>
-        <div className="input-label">
-          <label>Año</label>
-          <input type="number" {...register('year', { required: true })} />
-        </div>
-        <div className="input-label">
-          <label>Marca</label>
-          <select {...register('marca')}>
-            <option value=""></option>
-            <option value="female">Toyota</option>
-            <option value="male">Mercedes</option>
-            <option value="other">other</option>
-          </select>
-        </div>
-      </div>
-      <div className="container-inputs-3">
-        <div className="input-label">
-          <label>Modelo</label>
-          <select {...register('modelo')}>
-            <option value=""></option>
-            <option value="female">Toyota</option>
-            <option value="male">Mercedes</option>
-            <option value="other">other</option>
-          </select>
-        </div>
-        <div className="input-label">
-          <label>Versión</label>
-          <select {...register('version')}>
-            <option value=""></option>
-            <option value="female">Toyota</option>
-            <option value="male">Mercedes</option>
-            <option value="other">other</option>
-          </select>
-        </div>
-        <div className="input-label">
-          <label>Color</label>
-          <select {...register('Color')}>
-            <option value=""></option>
-            <option value="female">Rojo</option>
-            <option value="male">Verde</option>
-            <option value="other">Negro</option>
-          </select>
-        </div>
-      </div>
-      <div className="input-label-fullscreen">
-        <label>Nombre de Cliente</label>
-        <input {...register('NombreCliente')} />
-      </div>
-      <div className="input-label-fullscreen">
-        <label>Descripción de Vehiculo</label>
-        <textarea rows="3" {...register('descripcionVehicle')} />
-      </div>
-      <div className="input-label-fullscreen">
-        <label>Observación de Vehiculo</label>
-        <textarea rows="3" {...register('descripcionVehicle')} />
-      </div>
-      {/* <input type="submit" /> */}
-      <div>
-        <br />
-        <h6 className="title-section-form">Trabajos Realizados</h6>
-        <TableWorks />
-      </div>
-    </form>
+          <div className="container-inputs-3">
+            <div className="input-label">
+              <label>Nro Placa</label>
+              <input {...register('placa')} />
+            </div>
+            <div className="input-label">
+              <label>Año</label>
+              <input type="number" {...register('year', { required: true })} />
+            </div>
+            <div className="input-label">
+              <label>Marca</label>
+              <select {...register('marca')}>
+                <option value=""></option>
+                <option value="female">Toyota</option>
+                <option value="male">Mercedes</option>
+                <option value="other">other</option>
+              </select>
+            </div>
+          </div>
+          <div className="container-inputs-3">
+            <div className="input-label">
+              <label>Modelo</label>
+              <select {...register('modelo')}>
+                <option value=""></option>
+                <option value="female">Toyota</option>
+                <option value="male">Mercedes</option>
+                <option value="other">other</option>
+              </select>
+            </div>
+            <div className="input-label">
+              <label>Versión</label>
+              <select {...register('version')}>
+                <option value=""></option>
+                <option value="female">Toyota</option>
+                <option value="male">Mercedes</option>
+                <option value="other">other</option>
+              </select>
+            </div>
+            <div className="input-label">
+              <label>Color</label>
+              <select {...register('Color')}>
+                <option value=""></option>
+                <option value="female">Rojo</option>
+                <option value="male">Verde</option>
+                <option value="other">Negro</option>
+              </select>
+            </div>
+          </div>
+          <div className="input-label-fullscreen">
+            <label>Nombre de Cliente</label>
+            <input {...register('NombreCliente')} />
+          </div>
+          <div className="input-label-fullscreen">
+            <label>Descripción de Vehiculo</label>
+            <textarea rows="3" {...register('descripcionVehicle')} />
+          </div>
+          <div className="input-label-fullscreen">
+            <label>Observación de Vehiculo</label>
+            <textarea rows="3" {...register('descripcionVehicle')} />
+          </div>
+          {/* <input type="submit" /> */}
+          <div>
+            <br />
+            <h6 className="title-section-form">Trabajos Realizados</h6>
+            <TableWorks />
+            <Button
+              variant="secondary"
+              onClick={() => setOpenVehicle(false)}
+              style={{ border: 'none', fontSize: '12px' }}
+            >
+              Regresar
+            </Button>
+          </div>
+        </form>
+      ) : (
+        <InspectionHome
+          searchVehicle={searchVehicle}
+          setSearchVehicle={setSearchVehicle}
+          setOpenVehicle={setOpenVehicle}
+        />
+      )}
+    </>
   );
 }

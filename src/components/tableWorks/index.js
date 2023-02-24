@@ -6,7 +6,7 @@ import EyeIcon from '../../assets/view.png';
 import AddIcon from '../../assets/add.png';
 
 export default function TableWorks(props) {
-  const { setOpen } = props;
+  const { setOpen, notSearch } = props;
   const itemsPerPage = 4;
   const [show, setShow] = useState(false);
   const [search, setSearch] = useState('');
@@ -100,32 +100,36 @@ export default function TableWorks(props) {
 
   return (
     <div className="table-container">
-      <div style={{ position: 'relative' }}>
-        <TextField
-          sx={{
-            '& .MuiFormLabel-root': {
-              fontSize: '0.8rem',
-            },
-          }}
-          className="container-search-input"
-          id="search"
-          color={'error'}
-          variant="standard"
-          name="search"
-          value={search}
-          label="Buscar"
-          onChange={(event) => setSearch(event.target.value)}
-        />
-        <img
-          onClick={() => alert('add')}
-          src={AddIcon}
-          style={{
-            position: 'absolute',
-            top: '20px',
-            right: '135px',
-          }}
-        />
-      </div>
+      {!notSearch && (
+        <div
+          style={{ position: 'relative', width: '170px', marginLeft: 'auto' }}
+        >
+          <TextField
+            sx={{
+              '& .MuiFormLabel-root': {
+                fontSize: '0.8rem',
+              },
+            }}
+            className="container-search-input"
+            id="search"
+            color={'error'}
+            variant="standard"
+            name="search"
+            value={search}
+            label="Buscar"
+            onChange={(event) => setSearch(event.target.value)}
+          />
+          <img
+            onClick={() => alert('add')}
+            src={AddIcon}
+            style={{
+              position: 'absolute',
+              top: '20px',
+              right: '135px',
+            }}
+          />
+        </div>
+      )}
       <div>
         <div className="header-table">
           <div className="header-item">Fecha</div>

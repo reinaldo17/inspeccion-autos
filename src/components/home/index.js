@@ -12,7 +12,7 @@ export default function Home(props) {
       ? false
       : JSON.parse(sessionStorage.getItem('isUserLogged'))
   );
-  const [inspectionSelected, set] = useState([]);
+  const [inspectionSelected, setInspectionSelected] = useState([]);
 
   useEffect(() => {
     console.log(sessionStorage.getItem('isUserLogged'));
@@ -39,7 +39,7 @@ export default function Home(props) {
           </button>
         </>
       ) : (
-        <Login setOpen={setOpen} />
+        <Login setOpen={setOpen} setIsLogged={setIsLogged} />
       )}
     </div>
   );
