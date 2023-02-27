@@ -6,7 +6,7 @@ import EyeIcon from '../../assets/view.png';
 import AddIcon from '../../assets/add.png';
 
 export default function TableWorks(props) {
-  const { setOpen, notSearch } = props;
+  const { handleShow2, notSearch } = props;
   const itemsPerPage = 4;
   const [show, setShow] = useState(false);
   const [search, setSearch] = useState('');
@@ -120,7 +120,7 @@ export default function TableWorks(props) {
             onChange={(event) => setSearch(event.target.value)}
           />
           <img
-            onClick={() => alert('add')}
+            onClick={() => handleShow2()}
             src={AddIcon}
             style={{
               position: 'absolute',
@@ -146,7 +146,7 @@ export default function TableWorks(props) {
             <div className="info-item">{item.fecha}</div>
             <div className="info-item">{item.descripcion}</div>
             <img
-              onClick={() => alert(item.id)}
+              onClick={() => handleShow2(true)}
               src={EyeIcon}
               style={{
                 width: '18px',

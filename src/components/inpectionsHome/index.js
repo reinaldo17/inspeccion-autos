@@ -6,6 +6,7 @@ import TableWorks from '../tableWorks';
 import TextField from '@mui/material/TextField';
 import AddIcon from '../../assets/add.png';
 import VehicleModal from '../vehicleModal';
+import InspectionModal from '../inspectionModal';
 
 export default function InspectionHome(props) {
   const {
@@ -22,6 +23,7 @@ export default function InspectionHome(props) {
     searchVehicle,
     setOpenVehicle,
   } = props;
+
   const onSubmit = (data) => {
     console.log(data);
     setOpenVehicle(true);
@@ -32,9 +34,16 @@ export default function InspectionHome(props) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const [show2, setShow2] = useState(false);
+
+  const handleClose2 = () => setShow2(false);
+  const handleShow2 = () => setShow2(true);
+
   return (
     <>
       <VehicleModal show={show} handleClose={handleClose} />
+      <InspectionModal show={show2} handleClose={handleClose2} />
+
       <form onSubmit={handleSubmit(onSubmit)} className="form-vehicle">
         <h6 className="title-section-form">Inspecciones</h6>
         <div style={{ position: 'relative' }}>
@@ -46,7 +55,7 @@ export default function InspectionHome(props) {
             }}
             className="container-search-input text-field-full-width"
             id="search"
-            {...register('VehicleSearch', { required: true })}
+            {...register('VehicleSearch')}
             color={'error'}
             variant="standard"
             name="searchVehicle"
@@ -71,7 +80,7 @@ export default function InspectionHome(props) {
         <div>
           <br />
           <h6 className="title-section-form">Ultimas Inspecciones</h6>
-          <TableWorks notSearch={true} />
+          <TableWorks notSearch={true} handleShow2={setOpenVehicle} />
         </div>
       </form>
     </>

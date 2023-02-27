@@ -3,8 +3,7 @@ import { useForm, Controller } from 'react-hook-form';
 import Select from 'react-select';
 import './styles.scss';
 import TableWorks from '../tableWorks';
-import TextField from '@mui/material/TextField';
-import AddIcon from '../../assets/add.png';
+import InspectionModal from '../inspectionModal';
 import InspectionHome from '../inpectionsHome';
 import Button from 'react-bootstrap/Button';
 
@@ -21,8 +20,14 @@ export default function FormVehicle(props) {
   const { setIsLogged, setOpen } = props;
   const onSubmit = (data) => console.log(data);
 
+  const [show2, setShow2] = useState(false);
+
+  const handleClose2 = () => setShow2(false);
+  const handleShow2 = () => setShow2(true);
+
   return (
     <>
+      <InspectionModal show={show2} handleClose={handleClose2} />
       {openVehicle ? (
         <form onSubmit={handleSubmit(onSubmit)} className="form-vehicle">
           <h6 className="title-section-form">Vehiculo</h6>
@@ -91,7 +96,7 @@ export default function FormVehicle(props) {
           <div>
             <br />
             <h6 className="title-section-form">Trabajos Realizados</h6>
-            <TableWorks />
+            <TableWorks handleShow2={handleShow2} />
             <Button
               variant="secondary"
               onClick={() => setOpenVehicle(false)}
