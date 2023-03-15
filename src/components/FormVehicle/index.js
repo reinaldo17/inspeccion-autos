@@ -17,6 +17,7 @@ export default function FormVehicle(props) {
   } = useForm();
   const [searchVehicle, setSearchVehicle] = useState('');
   const [openVehicle, setOpenVehicle] = useState(false);
+  const [vehicleId, setVehicleId] = useState(false);
   const { setIsLogged, setOpen } = props;
   const onSubmit = (data) => console.log(data);
 
@@ -24,6 +25,10 @@ export default function FormVehicle(props) {
 
   const handleClose2 = () => setShow2(false);
   const handleShow2 = () => setShow2(true);
+
+  useEffect(() => {
+    console.log(vehicleId);
+  }, [vehicleId]);
 
   return (
     <>
@@ -108,6 +113,7 @@ export default function FormVehicle(props) {
         </form>
       ) : (
         <InspectionHome
+          setVehicleId={setVehicleId}
           searchVehicle={searchVehicle}
           setSearchVehicle={setSearchVehicle}
           setOpenVehicle={setOpenVehicle}

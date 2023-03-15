@@ -4,6 +4,7 @@ import Select from 'react-select';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+import { createInspection, getInspections } from '../../aplication/api';
 import './styles.scss';
 
 export default function VehicleModal(props) {
@@ -12,6 +13,7 @@ export default function VehicleModal(props) {
     handleSubmit,
     watch,
     control,
+    reset,
     formState: { errors },
   } = useForm();
 
@@ -27,16 +29,26 @@ export default function VehicleModal(props) {
 
   const [dataClient, setDataClient] = useState(null);
   const [openVehicleForm, setOpenVehicleForm] = useState(false);
-  const { show, handleClose } = props;
-  const onSubmit = (data) => {
-    console.log(data);
+  const { show, handleClose, setVehicleId, setOpenVehicle } = props;
+  const onSubmit = async (data) => {
+    setDataClient(data);
+    let idVehicle = await createInspection(data);
+    setVehicleId(idVehicle);
+    getInspections();
+    reset();
+    setOpenVehicleForm(false);
     handleClose();
+    setOpenVehicle(true);
   };
   const saveClientData = (data) => {
     setDataClient(data);
     console.log(data);
     setOpenVehicleForm(true);
   };
+
+  useEffect(() => {
+    getInspections();
+  }, []);
 
   return (
     <Modal show={show} onHide={handleClose} centered fullscreen>
@@ -54,7 +66,7 @@ export default function VehicleModal(props) {
             <div className="input-label-fullscreen">
               <div className="input-label">
                 <label>Cédula</label>
-                <input type="number" {...register1('cedula')} />
+                <input type="number" {...register('idClient')} />
               </div>
             </div>
             <div className="input-label-fullscreen">
@@ -66,19 +78,19 @@ export default function VehicleModal(props) {
 
             <div className="input-label-fullscreen">
               <label>Celular</label>
-              <input type="phone" {...register1('phone')} />
+              <input type="phone" {...register('phoneClient')} />
             </div>
             <div className="input-label-fullscreen">
               <label>Teléfono 2</label>
-              <input type="phone" {...register1('phone2')} />
+              <input type="phone" {...register('phoneClient2')} />
             </div>
             <div className="input-label-fullscreen">
               <label>Correo</label>
-              <input type="mail" {...register1('mail')} />
+              <input type="mail" {...register('mailClient')} />
             </div>
             <div className="input-label-fullscreen">
               <label>Dirección</label>
-              <textarea rows="3" {...register1('descripcionVehicle')} />
+              <textarea rows="3" {...register('directionClient')} />
             </div>
             <Button
               style={{
@@ -115,8 +127,8 @@ export default function VehicleModal(props) {
                 <label>Marca</label>
                 <select {...register('marca')}>
                   <option value=""></option>
-                  <option value="female">Toyota</option>
-                  <option value="male">Mercedes</option>
+                  <option value="Toyota">Toyota</option>
+                  <option value="Mercedes">Mercedes</option>
                   <option value="other">other</option>
                 </select>
               </div>
@@ -126,38 +138,38 @@ export default function VehicleModal(props) {
                 <label>Modelo</label>
                 <select {...register('modelo')}>
                   <option value=""></option>
-                  <option value="female">Toyota</option>
-                  <option value="male">Mercedes</option>
-                  <option value="other">other</option>
+                  <option value="ToyotaM">Toyota</option>
+                  <option value="MercedesM">Mercedes</option>
+                  <option value="otherM">other</option>
                 </select>
               </div>
               <div className="input-label">
                 <label>Versión</label>
                 <select {...register('version')}>
                   <option value=""></option>
-                  <option value="female">Toyota</option>
-                  <option value="male">Mercedes</option>
-                  <option value="other">other</option>
+                  <option value="ToyotaV">Toyota</option>
+                  <option value="MercedesV">Mercedes</option>
+                  <option value="otherV">other</option>
                 </select>
               </div>
               <div className="input-label">
                 <label>Color</label>
-                <select {...register('Color')}>
+                <select {...register('color')}>
                   <option value=""></option>
-                  <option value="female">Rojo</option>
-                  <option value="male">Verde</option>
-                  <option value="other">Negro</option>
+                  <option value="Rojo">Rojo</option>
+                  <option value="Verde">Verde</option>
+                  <option value="Negro">Negro</option>
                 </select>
               </div>
             </div>
 
             <div className="input-label-fullscreen">
               <label>Descripción de Vehiculo</label>
-              <textarea rows="3" {...register('descripcionVehicle')} />
+              <textarea rows="3" {...register('descriptionVehicle')} />
             </div>
             <div className="input-label-fullscreen">
               <label>Observación de Vehiculo</label>
-              <textarea rows="3" {...register('descripcionVehicle')} />
+              <textarea rows="3" {...register('observationVehicle')} />
             </div>
             {/* <input type="submit" /> */}
             <Modal.Footer

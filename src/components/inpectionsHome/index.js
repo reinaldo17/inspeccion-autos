@@ -22,6 +22,7 @@ export default function InspectionHome(props) {
     setSearchVehicle,
     searchVehicle,
     setOpenVehicle,
+    setVehicleId,
   } = props;
 
   const onSubmit = (data) => {
@@ -41,7 +42,12 @@ export default function InspectionHome(props) {
 
   return (
     <>
-      <VehicleModal show={show} handleClose={handleClose} />
+      <VehicleModal
+        show={show}
+        handleClose={handleClose}
+        setVehicleId={setVehicleId}
+        setOpenVehicle={setOpenVehicle}
+      />
       <InspectionModal show={show2} handleClose={handleClose2} />
 
       <form onSubmit={handleSubmit(onSubmit)} className="form-vehicle">
