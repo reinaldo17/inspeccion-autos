@@ -4,7 +4,7 @@ import Select from 'react-select';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import { createInspection, getInspections } from '../../aplication/api';
+import { createInspection, getAutoYears } from '../../aplication/api';
 import './styles.scss';
 
 export default function VehicleModal(props) {
@@ -28,13 +28,18 @@ export default function VehicleModal(props) {
   } = useForm();
 
   const [dataClient, setDataClient] = useState(null);
+  const [arrayYears, setArrayYears] = useState([]);
   const [openVehicleForm, setOpenVehicleForm] = useState(false);
   const { show, handleClose, setVehicleId, setOpenVehicle } = props;
+
+  useEffect(() => {
+    getAutoYears(setArrayYears);
+  }, []);
+
   const onSubmit = async (data) => {
     setDataClient(data);
     let idVehicle = await createInspection(data);
     setVehicleId(idVehicle);
-    getInspections();
     reset();
     setOpenVehicleForm(false);
     handleClose();
@@ -45,10 +50,6 @@ export default function VehicleModal(props) {
     console.log(data);
     setOpenVehicleForm(true);
   };
-
-  useEffect(() => {
-    getInspections();
-  }, []);
 
   return (
     <Modal show={show} onHide={handleClose} centered fullscreen>
@@ -118,10 +119,12 @@ export default function VehicleModal(props) {
               </div>
               <div className="input-label">
                 <label>Año</label>
-                <input
-                  type="number"
-                  {...register('year', { required: true })}
-                />
+                <select {...register('year')}>
+                  <option value=""></option>
+                  {arrayYears?.map((item, index) => {
+                    return <option value={item.VALOR}>{item.DESCRIP}</option>;
+                  })}
+                </select>
               </div>
               <div className="input-label">
                 <label>Marca</label>

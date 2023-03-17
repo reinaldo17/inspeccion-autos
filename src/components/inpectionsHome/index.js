@@ -7,6 +7,7 @@ import TextField from '@mui/material/TextField';
 import AddIcon from '../../assets/add.png';
 import VehicleModal from '../vehicleModal';
 import InspectionModal from '../inspectionModal';
+import { createInspection, getInspections } from '../../aplication/api';
 
 export default function InspectionHome(props) {
   const {
@@ -17,8 +18,7 @@ export default function InspectionHome(props) {
     formState: { errors },
   } = useForm();
   const {
-    setIsLogged,
-    setOpen,
+    setInspectionSelected,
     setSearchVehicle,
     searchVehicle,
     setOpenVehicle,
@@ -26,11 +26,11 @@ export default function InspectionHome(props) {
   } = props;
 
   const onSubmit = (data) => {
-    console.log(data);
     setOpenVehicle(true);
   };
 
   const [show, setShow] = useState(false);
+  const [listInspection, setListInspection] = useState([]);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -38,7 +38,17 @@ export default function InspectionHome(props) {
   const [show2, setShow2] = useState(false);
 
   const handleClose2 = () => setShow2(false);
-  const handleShow2 = () => setShow2(true);
+
+  const handleShow2 = (item) => {
+    console.log(item);
+    setInspectionSelected(item);
+    setShow2(true);
+    setOpenVehicle(true);
+  };
+
+  useEffect(() => {
+    getInspections(setListInspection);
+  }, []);
 
   return (
     <>
@@ -86,7 +96,11 @@ export default function InspectionHome(props) {
         <div>
           <br />
           <h6 className="title-section-form">Ultimas Inspecciones</h6>
-          <TableWorks notSearch={true} handleShow2={setOpenVehicle} />
+          <TableWorks
+            notSearch={true}
+            handleShow2={handleShow2}
+            data={listInspection}
+          />
         </div>
       </form>
     </>

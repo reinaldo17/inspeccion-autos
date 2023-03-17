@@ -6,7 +6,7 @@ import EyeIcon from '../../assets/view.png';
 import AddIcon from '../../assets/add.png';
 
 export default function TableWorks(props) {
-  const { handleShow2, notSearch } = props;
+  const { handleShow2, notSearch, data } = props;
   const itemsPerPage = 4;
   const [show, setShow] = useState(false);
   const [search, setSearch] = useState('');
@@ -14,61 +14,19 @@ export default function TableWorks(props) {
   const [currentItems, setCurrentItems] = useState([]);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
-  const worksArray = [
-    {
-      id: 1,
-      fecha: '2021-09-01',
-      descripcion: 'Cambio de Aceite',
-    },
-    {
-      id: 2,
-      fecha: '2022-09-01',
-      descripcion: 'Cambio de Gasolina',
-    },
-    {
-      id: 3,
-      fecha: '2023-09-01',
-      descripcion: 'Cambio de Cauchos',
-    },
-    {
-      id: 4,
-      fecha: '2021-09-01',
-      descripcion: 'Cambio de Aceite',
-    },
-    {
-      id: 5,
-      fecha: '2022-09-01',
-      descripcion: 'Cambio de Gasolina',
-    },
-    {
-      id: 6,
-      fecha: '2023-09-01',
-      descripcion: 'Cambio de Cauchos',
-    },
-    {
-      id: 7,
-      fecha: '2021-09-01',
-      descripcion: 'Cambio de Aceite',
-    },
-    {
-      id: 8,
-      fecha: '2022-09-01',
-      descripcion: 'Cambio de Gasolina',
-    },
-    {
-      id: 9,
-      fecha: '2023-09-01',
-      descripcion: 'Cambio de Cauchos',
-    },
-  ];
-  const [services, setServices] = useState(worksArray);
+  const [services, setServices] = useState([]);
+
+  useEffect(() => {
+    setServices(data);
+    setFilterServices(data);
+  }, [data]);
 
   useEffect(() => {
     if (search.length != 0) {
       const timeOutId = setTimeout(() => changeTextSearch(search), 600);
       return () => clearTimeout(timeOutId);
     } else {
-      setFilterServices(services);
+      setFilterServices(data);
     }
   }, [search]);
 
@@ -92,8 +50,8 @@ export default function TableWorks(props) {
   useEffect(() => {
     // Fetch items from another resources.
     const endOffset = itemOffset + itemsPerPage;
-    setCurrentItems(filterServices.slice(itemOffset, endOffset));
-    setPageCount(Math.ceil(filterServices.length / itemsPerPage));
+    setCurrentItems(filterServices?.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(filterServices?.length / itemsPerPage));
   }, [itemOffset, itemsPerPage, filterServices]);
 
   // Invoke when user click to request another page.
@@ -132,21 +90,25 @@ export default function TableWorks(props) {
       )}
       <div>
         <div className="header-table">
-          <div className="header-item">Fecha</div>
-          <div className="header-item">Descripción</div>
+          <div className="header-item">Nombre</div>
+          <div className="header-item">Placa</div>
         </div>
       </div>
-      {currentItems.map((item, index) => {
+      {currentItems?.map((item, index) => {
         return (
           <div
             key={index}
             onClick={() => handlerSelectService(item.id)}
             className="item-mailbox"
           >
-            <div className="info-item">{item.fecha}</div>
-            <div className="info-item">{item.descripcion}</div>
+            <div className="info-item" style={{ textTransform: 'capitalize' }}>
+              {item.nombre}
+            </div>
+            <div className="info-item" style={{ textTransform: 'uppercase' }}>
+              {item.placa}
+            </div>
             <img
-              onClick={() => handleShow2(true)}
+              onClick={() => handleShow2(item)}
               src={EyeIcon}
               style={{
                 width: '18px',

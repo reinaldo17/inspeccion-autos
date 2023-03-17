@@ -4,7 +4,8 @@
 
 .header-table{
     display: grid;
-    grid-template-columns: 80px 1fr 25px;
+    grid-template-columns: 1fr 80px 25px;
+    grid-gap: 10px;
     background-color:    #e87510a1;;
     padding: 5px;
     border-radius: 8px 8px 0 0;
@@ -58,7 +59,8 @@
 
     .item-mailbox  {
         display: grid;
-        grid-template-columns: 80px 1fr 25px;
+        grid-template-columns: 1fr 80px 25px;
+        grid-gap: 10px;
         padding: 5px;
         font-size: 12px;
         text-align: left;

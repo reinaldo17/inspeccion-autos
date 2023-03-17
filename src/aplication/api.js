@@ -11,6 +11,9 @@ import {
   where,
 } from 'firebase/firestore';
 import { db } from './firebase';
+import Axios from 'axios';
+
+const apiBase = 'https://asesores.segurospiramide.com/asg-api/dbo/budgets';
 
 // CREATE
 export const createInspection = async (obj) => {
@@ -26,10 +29,10 @@ export const updateItem = async (id, obj) => {
 };
 
 // READ
-export const getInspections = async () => {
+export const getInspections = async (setListInspection) => {
   const colRef = collection(db, 'inspections');
   const result = await getDocs(query(colRef));
-  console.log(getArrayFromCollection(result));
+  setListInspection(getArrayFromCollection(result));
   return getArrayFromCollection(result);
 };
 
@@ -57,4 +60,14 @@ const getArrayFromCollection = (collection) => {
   return collection.docs.map((doc) => {
     return { ...doc.data(), id: doc.id };
   });
+};
+
+export const getAutoYears = async (setArrayYears) => {
+  try {
+    let response = await Axios.post(`${apiBase}/get_years`);
+
+    setArrayYears(response.data.p_years);
+  } catch (error) {
+    console.error(error);
+  }
 };
