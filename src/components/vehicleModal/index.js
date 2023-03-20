@@ -4,7 +4,14 @@ import Select from 'react-select';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import { createInspection, getAutoYears } from '../../aplication/api';
+import {
+  createInspection,
+  getAutoYears,
+  getAutoMarks,
+  getAutoModels,
+  getAutoVersions,
+  carColors,
+} from '../../aplication/api';
 import './styles.scss';
 
 export default function VehicleModal(props) {
@@ -29,6 +36,13 @@ export default function VehicleModal(props) {
 
   const [dataClient, setDataClient] = useState(null);
   const [arrayYears, setArrayYears] = useState([]);
+  const [selectedYear, setSelectedYear] = useState(null);
+  const [arrayMarks, setArrayMarks] = useState([]);
+  const [selectedMark, setSelectedMark] = useState(null);
+  const [arrayModels, setArrayModels] = useState([]);
+  const [selectedModel, setSelectedModel] = useState(null);
+  const [arrayVersion, setArrayVersion] = useState([]);
+  const [selectedVersion, setSelectedVersion] = useState(null);
   const [openVehicleForm, setOpenVehicleForm] = useState(false);
   const { show, handleClose, setVehicleId, setOpenVehicle } = props;
 
@@ -43,12 +57,30 @@ export default function VehicleModal(props) {
     reset();
     setOpenVehicleForm(false);
     handleClose();
-    setOpenVehicle(true);
   };
   const saveClientData = (data) => {
     setDataClient(data);
     console.log(data);
     setOpenVehicleForm(true);
+  };
+
+  const handlerYear = (data) => {
+    setSelectedYear(data.target.value);
+    getAutoMarks(data.target.value, setArrayMarks);
+  };
+  const handlerMark = (data) => {
+    setSelectedMark(data.target.value);
+    getAutoModels(selectedYear, data.target.value, setArrayModels);
+  };
+
+  const handlerModel = (data) => {
+    setSelectedModel(data.target.value);
+    getAutoVersions(
+      selectedYear,
+      selectedMark,
+      data.target.value,
+      setArrayVersion
+    );
   };
 
   return (
@@ -115,53 +147,78 @@ export default function VehicleModal(props) {
             <div className="container-inputs-3">
               <div className="input-label">
                 <label>Nro Placa</label>
-                <input {...register('placa')} />
+                <input
+                  {...register('placa')}
+                  onChange={(e) => {
+                    return e.target.value.toUpperCase();
+                  }}
+                />
               </div>
               <div className="input-label">
                 <label>Año</label>
-                <select {...register('year')}>
+                <select {...register('year')} onChange={handlerYear}>
                   <option value=""></option>
                   {arrayYears?.map((item, index) => {
-                    return <option value={item.VALOR}>{item.DESCRIP}</option>;
+                    return (
+                      <option key={index} value={item.VALOR}>
+                        {item.DESCRIP}
+                      </option>
+                    );
                   })}
                 </select>
               </div>
               <div className="input-label">
                 <label>Marca</label>
-                <select {...register('marca')}>
+                <select {...register('marca')} onChange={handlerMark}>
                   <option value=""></option>
-                  <option value="Toyota">Toyota</option>
-                  <option value="Mercedes">Mercedes</option>
-                  <option value="other">other</option>
+                  {arrayMarks?.map((item, index) => {
+                    return (
+                      <option key={index} value={item.VALOR}>
+                        {item.DESCRIP}
+                      </option>
+                    );
+                  })}
                 </select>
               </div>
             </div>
             <div className="container-inputs-3">
               <div className="input-label">
                 <label>Modelo</label>
-                <select {...register('modelo')}>
+                <select {...register('modelo')} onChange={handlerModel}>
                   <option value=""></option>
-                  <option value="ToyotaM">Toyota</option>
-                  <option value="MercedesM">Mercedes</option>
-                  <option value="otherM">other</option>
+                  {arrayModels?.map((item, index) => {
+                    return (
+                      <option key={index} value={item.VALOR}>
+                        {item.DESCRIP}
+                      </option>
+                    );
+                  })}
                 </select>
               </div>
               <div className="input-label">
                 <label>Versión</label>
                 <select {...register('version')}>
                   <option value=""></option>
-                  <option value="ToyotaV">Toyota</option>
-                  <option value="MercedesV">Mercedes</option>
-                  <option value="otherV">other</option>
+                  {arrayVersion?.map((item, index) => {
+                    return (
+                      <option key={index} value={item.VALOR}>
+                        {item.DESCRIP}
+                      </option>
+                    );
+                  })}
                 </select>
               </div>
               <div className="input-label">
                 <label>Color</label>
                 <select {...register('color')}>
                   <option value=""></option>
-                  <option value="Rojo">Rojo</option>
-                  <option value="Verde">Verde</option>
-                  <option value="Negro">Negro</option>
+                  {carColors?.map((item, index) => {
+                    return (
+                      <option key={index} value={item}>
+                        {item}
+                      </option>
+                    );
+                  })}
                 </select>
               </div>
             </div>

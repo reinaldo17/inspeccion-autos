@@ -5,7 +5,16 @@ import './styles.scss';
 import TableWorks from '../tableWorks';
 import InspectionModal from '../inspectionModal';
 import InspectionHome from '../inpectionsHome';
+import {
+  getItemById,
+  getAutoMarks,
+  getAutoModels,
+  getAutoVersions,
+  getAutoYears,
+  carColors,
+} from '../../aplication/api';
 import Button from 'react-bootstrap/Button';
+import { async } from '@firebase/util';
 
 export default function FormVehicle(props) {
   const {
@@ -18,8 +27,16 @@ export default function FormVehicle(props) {
   } = useForm();
   const [searchVehicle, setSearchVehicle] = useState('');
   const [openVehicle, setOpenVehicle] = useState(false);
-  const [vehicleId, setVehicleId] = useState(false);
-  const [inspectionSelected, setInspectionSelected] = useState([]);
+  const [vehicleId, setVehicleId] = useState(null);
+  const [inspectionSelected, setInspectionSelected] = useState(null);
+  const [arrayYears, setArrayYears] = useState([]);
+  const [selectedYear, setSelectedYear] = useState(null);
+  const [arrayMarks, setArrayMarks] = useState([]);
+  const [selectedMark, setSelectedMark] = useState(null);
+  const [arrayModels, setArrayModels] = useState([]);
+  const [selectedModel, setSelectedModel] = useState(null);
+  const [arrayVersion, setArrayVersion] = useState([]);
+  const [selectedVersion, setSelectedVersion] = useState(null);
   const { setIsLogged, setOpen } = props;
   const onSubmit = (data) => console.log(data);
 
@@ -29,9 +46,57 @@ export default function FormVehicle(props) {
   const handleShow2 = () => setShow2(true);
 
   useEffect(() => {
-    console.log(vehicleId);
+    getAutoYears(setArrayYears);
+  }, []);
+
+  useEffect(() => {
+    if (vehicleId) {
+      getItemById(vehicleId, setInspectionSelected, setOpenVehicle, setOpen);
+    }
   }, [vehicleId]);
-  console.log(inspectionSelected.placa);
+
+  useEffect(() => {
+    if (inspectionSelected) {
+      handlerYear(inspectionSelected.year);
+      handlerMark2(inspectionSelected.year, inspectionSelected.marca);
+      handlerModel2(
+        inspectionSelected.year,
+        inspectionSelected.marca,
+        inspectionSelected.modelo
+      );
+      setSelectedVersion(inspectionSelected.version);
+    }
+  }, [inspectionSelected]);
+
+  console.log('selectedYear: ', selectedYear);
+  console.log('selectedMark: ', selectedMark);
+  console.log('selectedModel: ', selectedModel);
+  console.log('selectedVersion: ', selectedVersion);
+
+  const handlerYear = (year) => {
+    setSelectedYear(year);
+    getAutoMarks(year, setArrayMarks);
+  };
+  const handlerMark = (mark) => {
+    setSelectedMark(mark);
+    getAutoModels(selectedYear, mark, setArrayModels);
+  };
+
+  const handlerModel = (model) => {
+    setSelectedModel(model);
+    getAutoVersions(selectedYear, selectedMark, model, setArrayVersion);
+  };
+
+  const handlerMark2 = (year, mark) => {
+    setSelectedMark(mark);
+    getAutoModels(year, mark, setArrayModels);
+  };
+
+  const handlerModel2 = (year, mark, model) => {
+    setSelectedModel(model);
+    getAutoVersions(year, mark, model, setArrayVersion);
+  };
+
   return (
     <>
       <InspectionModal show={show2} handleClose={handleClose2} />
@@ -51,48 +116,93 @@ export default function FormVehicle(props) {
                 </div>
                 <div className="input-label">
                   <label>Año</label>
-                  <input
+                  <select
+                    {...register('year')}
                     defaultValue={inspectionSelected.year}
-                    type="number"
-                    {...register('year', { required: true })}
-                  />
+                    onChange={(e) => handlerYear(e.target.value)}
+                  >
+                    <option value=""></option>
+                    {arrayYears?.map((item, index) => {
+                      return (
+                        <option key={index} value={item.VALOR}>
+                          {item.DESCRIP}
+                        </option>
+                      );
+                    })}
+                  </select>
                 </div>
                 <div className="input-label">
                   <label>Marca</label>
-                  <select {...register('marca')}>
-                    <option value=""></option>
-                    <option value="female">Toyota</option>
-                    <option value="male">Mercedes</option>
-                    <option value="other">other</option>
-                  </select>
+                  {selectedMark && (
+                    <select
+                      {...register('marca')}
+                      onChange={(e) => handlerMark(e.target.value)}
+                      defaultValue={inspectionSelected.marca}
+                    >
+                      <option value=""></option>
+                      {arrayMarks?.map((item, index) => {
+                        return (
+                          <option key={index} value={item.VALOR}>
+                            {item.DESCRIP}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  )}
                 </div>
               </div>
               <div className="container-inputs-3">
                 <div className="input-label">
                   <label>Modelo</label>
-                  <select {...register('modelo')}>
-                    <option value=""></option>
-                    <option value="female">Toyota</option>
-                    <option value="male">Mercedes</option>
-                    <option value="other">other</option>
-                  </select>
+                  {selectedModel && (
+                    <select
+                      {...register('modelo')}
+                      onChange={(e) => handlerModel(e.target.value)}
+                      defaultValue={inspectionSelected.modelo}
+                    >
+                      <option value=""></option>
+                      {arrayModels?.map((item, index) => {
+                        return (
+                          <option key={index} value={item.VALOR}>
+                            {item.DESCRIP}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  )}
                 </div>
                 <div className="input-label">
                   <label>Versión</label>
-                  <select {...register('version')}>
-                    <option value=""></option>
-                    <option value="female">Toyota</option>
-                    <option value="male">Mercedes</option>
-                    <option value="other">other</option>
-                  </select>
+                  {selectedVersion && (
+                    <select
+                      {...register('version')}
+                      defaultValue={inspectionSelected.version}
+                    >
+                      <option value=""></option>
+                      {arrayVersion?.map((item, index) => {
+                        return (
+                          <option key={index} value={item.VALOR}>
+                            {item.DESCRIP}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  )}
                 </div>
                 <div className="input-label">
                   <label>Color</label>
-                  <select {...register('Color')}>
+                  <select
+                    {...register('color')}
+                    defaultValue={inspectionSelected.color}
+                  >
                     <option value=""></option>
-                    <option value="female">Rojo</option>
-                    <option value="male">Verde</option>
-                    <option value="other">Negro</option>
+                    {carColors?.map((item, index) => {
+                      return (
+                        <option key={index} value={item}>
+                          {item}
+                        </option>
+                      );
+                    })}
                   </select>
                 </div>
               </div>
@@ -100,7 +210,7 @@ export default function FormVehicle(props) {
                 <label>Nombre de Cliente</label>
                 <input
                   defaultValue={inspectionSelected.nombre}
-                  {...register('NombreCliente')}
+                  {...register('nombre')}
                 />
               </div>
               <div className="input-label-fullscreen">
@@ -108,7 +218,7 @@ export default function FormVehicle(props) {
                 <textarea
                   defaultValue={inspectionSelected.descriptionVehicle}
                   rows="3"
-                  {...register('descripcionVehicle')}
+                  {...register('descriptionVehicle')}
                 />
               </div>
               <div className="input-label-fullscreen">
@@ -116,7 +226,7 @@ export default function FormVehicle(props) {
                 <textarea
                   defaultValue={inspectionSelected.observationVehicle}
                   rows="3"
-                  {...register('descripcionVehicle')}
+                  {...register('observationVehicle')}
                 />
               </div>
               {/* <input type="submit" /> */}
@@ -145,6 +255,7 @@ export default function FormVehicle(props) {
           setSearchVehicle={setSearchVehicle}
           setOpenVehicle={setOpenVehicle}
           setInspectionSelected={setInspectionSelected}
+          setOpen={setOpen}
         />
       )}
     </>

@@ -23,6 +23,7 @@ export default function InspectionHome(props) {
     searchVehicle,
     setOpenVehicle,
     setVehicleId,
+    setOpen,
   } = props;
 
   const onSubmit = (data) => {
@@ -42,8 +43,11 @@ export default function InspectionHome(props) {
   const handleShow2 = (item) => {
     console.log(item);
     setInspectionSelected(item);
-    setShow2(true);
-    setOpenVehicle(true);
+    setOpen(true);
+    setTimeout(() => {
+      setOpen(false);
+      setOpenVehicle(true);
+    }, 4500);
   };
 
   useEffect(() => {
