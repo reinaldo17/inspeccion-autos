@@ -43,6 +43,7 @@ export default function InspectionHome(props) {
   const handleShow2 = (item) => {
     console.log(item);
     setInspectionSelected(item);
+    setVehicleId(item.id);
     setOpen(true);
     setTimeout(() => {
       setOpen(false);
@@ -66,7 +67,7 @@ export default function InspectionHome(props) {
 
       <form onSubmit={handleSubmit(onSubmit)} className="form-vehicle">
         <h6 className="title-section-form">Inspecciones</h6>
-        <div style={{ position: 'relative' }}>
+        {/* <div style={{ position: 'relative' }}>
           <TextField
             sx={{
               '& .MuiFormLabel-root': {
@@ -95,13 +96,13 @@ export default function InspectionHome(props) {
           <button className="form-control-button" type="submit">
             Buscar
           </button>
-        </div>
+        </div> */}
 
         <div>
-          <br />
-          <h6 className="title-section-form">Ultimas Inspecciones</h6>
+          {/* <br />
+          <h6 className="title-section-form">Vehiculos</h6> */}
           <TableWorks
-            notSearch={true}
+            handleShow={handleShow}
             handleShow2={handleShow2}
             data={listInspection}
           />

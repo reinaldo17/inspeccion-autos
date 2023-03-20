@@ -23,7 +23,7 @@ export const createInspection = async (obj) => {
 };
 
 // UPDATE
-export const updateItem = async (id, obj) => {
+export const updateInspection = async (id, obj) => {
   const colRef = collection(db, 'inspections');
   await updateDoc(doc(colRef, id), obj);
 };

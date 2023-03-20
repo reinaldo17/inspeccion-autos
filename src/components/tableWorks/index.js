@@ -6,8 +6,8 @@ import EyeIcon from '../../assets/view.png';
 import AddIcon from '../../assets/add.png';
 
 export default function TableWorks(props) {
-  const { handleShow2, notSearch, data } = props;
-  const itemsPerPage = 4;
+  const { handleShow2, handleShow, data } = props;
+  const itemsPerPage = 20;
   const [show, setShow] = useState(false);
   const [search, setSearch] = useState('');
   const [filterServices, setFilterServices] = useState([]);
@@ -41,8 +41,9 @@ export default function TableWorks(props) {
     setItemOffset(0);
     const result = services.filter(
       (word) =>
-        word.fecha?.toLowerCase()?.includes(searchActive.toLowerCase()) ||
-        word.descripcion?.toLowerCase()?.includes(searchActive.toLowerCase())
+        word.nombre?.toLowerCase()?.includes(searchActive.toLowerCase()) ||
+        word.placa?.toLowerCase()?.includes(searchActive.toLowerCase()) ||
+        word.marca?.toLowerCase()?.includes(searchActive.toLowerCase())
     );
 
     setFilterServices(result);
@@ -58,36 +59,33 @@ export default function TableWorks(props) {
 
   return (
     <div className="table-container">
-      {!notSearch && (
-        <div
-          style={{ position: 'relative', width: '170px', marginLeft: 'auto' }}
-        >
-          <TextField
-            sx={{
-              '& .MuiFormLabel-root': {
-                fontSize: '0.8rem',
-              },
-            }}
-            className="container-search-input"
-            id="search"
-            color={'error'}
-            variant="standard"
-            name="search"
-            value={search}
-            label="Buscar"
-            onChange={(event) => setSearch(event.target.value)}
-          />
-          <img
-            onClick={() => handleShow2()}
-            src={AddIcon}
-            style={{
-              position: 'absolute',
-              top: '20px',
-              right: '135px',
-            }}
-          />
-        </div>
-      )}
+      <div style={{ position: 'relative', width: '170px', marginLeft: 'auto' }}>
+        <TextField
+          sx={{
+            '& .MuiFormLabel-root': {
+              fontSize: '0.8rem',
+            },
+          }}
+          className="container-search-input"
+          id="search"
+          color={'error'}
+          variant="standard"
+          name="search"
+          value={search}
+          label="Buscar"
+          onChange={(event) => setSearch(event.target.value)}
+        />
+        <img
+          onClick={() => handleShow()}
+          src={AddIcon}
+          style={{
+            position: 'absolute',
+            top: '20px',
+            right: '135px',
+          }}
+        />
+      </div>
+
       <div>
         <div className="header-table">
           <div className="header-item">Nombre</div>

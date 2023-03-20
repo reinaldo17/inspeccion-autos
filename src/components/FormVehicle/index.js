@@ -12,6 +12,7 @@ import {
   getAutoVersions,
   getAutoYears,
   carColors,
+  updateInspection,
 } from '../../aplication/api';
 import Button from 'react-bootstrap/Button';
 import { async } from '@firebase/util';
@@ -38,7 +39,12 @@ export default function FormVehicle(props) {
   const [arrayVersion, setArrayVersion] = useState([]);
   const [selectedVersion, setSelectedVersion] = useState(null);
   const { setIsLogged, setOpen } = props;
-  const onSubmit = (data) => console.log(data);
+
+  const onSubmit = (data) => {
+    console.log(vehicleId);
+    console.log(data);
+    updateInspection(vehicleId, data);
+  };
 
   const [show2, setShow2] = useState(false);
 
@@ -67,11 +73,6 @@ export default function FormVehicle(props) {
       setSelectedVersion(inspectionSelected.version);
     }
   }, [inspectionSelected]);
-
-  console.log('selectedYear: ', selectedYear);
-  console.log('selectedMark: ', selectedMark);
-  console.log('selectedModel: ', selectedModel);
-  console.log('selectedVersion: ', selectedVersion);
 
   const handlerYear = (year) => {
     setSelectedYear(year);
@@ -229,7 +230,16 @@ export default function FormVehicle(props) {
                   {...register('observationVehicle')}
                 />
               </div>
-              {/* <input type="submit" /> */}
+              <Button
+                type="submit"
+                style={{
+                  border: 'none',
+                  fontSize: '12px',
+                  background: '#fcbd43',
+                }}
+              >
+                Guardar Cambios
+              </Button>
               <div>
                 <br />
                 <h6 className="title-section-form">Trabajos Realizados</h6>
