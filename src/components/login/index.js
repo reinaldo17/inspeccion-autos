@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import Select from 'react-select';
 import './styles.scss';
-import TableWorks from '../tableWorks';
 import TextField from '@mui/material/TextField';
 import LoginIcon from '../../assets/login.png';
 

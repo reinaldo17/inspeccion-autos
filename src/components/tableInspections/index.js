@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import './styles.scss';
 import ReactPaginate from 'react-paginate';
-import DeleteIcon from '../../assets/delete.png';
+import EyeIcon from '../../assets/view.png';
 import AddIcon from '../../assets/add.png';
 
-export default function TableWorks(props) {
-  const { handleShow2, handleShow, data, inspectionSelected, onSubmit } = props;
+export default function TableInspections(props) {
+  const { handleShow2, handleShow, data } = props;
   const itemsPerPage = 20;
   const [show, setShow] = useState(false);
   const [search, setSearch] = useState('');
@@ -17,7 +17,6 @@ export default function TableWorks(props) {
   const [services, setServices] = useState([]);
 
   useEffect(() => {
-    console.log(data);
     setServices(data);
     setFilterServices(data);
   }, [data]);
@@ -33,18 +32,6 @@ export default function TableWorks(props) {
 
   const handlerSelectService = (idWorkflow) => {};
 
-  const handleDeleteItem = (index) => {
-    if (window.confirm('¿Estás seguro que desea Eliminar este Trabajo?')) {
-      const inspection = inspectionSelected;
-      let miArreglo = data;
-      let posicionAEliminar = index;
-      miArreglo.splice(posicionAEliminar, 1);
-      inspection.trabajos = miArreglo;
-      console.log(inspection);
-      onSubmit(inspection);
-    }
-  };
-
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % filterServices.length;
     setItemOffset(newOffset);
@@ -54,12 +41,9 @@ export default function TableWorks(props) {
     setItemOffset(0);
     const result = services.filter(
       (word) =>
-        word.descripcionTaller
-          ?.toLowerCase()
-          ?.includes(searchActive.toLowerCase()) ||
-        word.descripcionProvider
-          ?.toLowerCase()
-          ?.includes(searchActive.toLowerCase())
+        word.nombre?.toLowerCase()?.includes(searchActive.toLowerCase()) ||
+        word.placa?.toLowerCase()?.includes(searchActive.toLowerCase()) ||
+        word.marca?.toLowerCase()?.includes(searchActive.toLowerCase())
     );
 
     setFilterServices(result);
@@ -74,55 +58,63 @@ export default function TableWorks(props) {
   // Invoke when user click to request another page.
 
   return (
-    <div className="table-container" style={{ marginTop: '20px' }}>
+    <div className="table-container">
       <div
         style={{
           position: 'relative',
           width: '170px',
           marginLeft: 'auto',
+          marginBottom: '30px',
         }}
       >
+        <TextField
+          sx={{
+            '& .MuiFormLabel-root': {
+              fontSize: '0.8rem',
+            },
+          }}
+          className="container-search-input"
+          id="search"
+          color={'error'}
+          variant="standard"
+          name="search"
+          value={search}
+          label="Buscar"
+          onChange={(event) => setSearch(event.target.value)}
+        />
         <img
-          onClick={() => handleShow2()}
+          onClick={() => handleShow()}
           src={AddIcon}
           style={{
-            marginLeft: 'auto',
-            display: 'block',
-            marginRight: '5px',
+            position: 'absolute',
+            top: '20px',
+            right: '135px',
           }}
         />
       </div>
 
       <div>
         <div className="header-table">
-          <div className="header-item">Trabajos</div>
+          <div className="header-item">Nombre Cliente</div>
+          <div className="header-item">Placa</div>
         </div>
       </div>
       {currentItems?.map((item, index) => {
         return (
           <div
             key={index}
-            onClick={() => handlerSelectService(item.id)}
-            className="item-mailbox2"
+            onClick={() => handleShow2(item)}
+            className="item-mailbox"
           >
-            <div>
-              {item.descriptionTaller && (
-                <div
-                  className="info-item"
-                  style={{ textTransform: 'capitalize' }}
-                >
-                  ·Trabajo Realizado en Taller: {item.descriptionTaller}
-                </div>
-              )}
-              {item.descriptionExtern && (
-                <div className="info-item">
-                  ·Trabajo Proveedor Externo: {item.descriptionExtern}
-                </div>
-              )}
+            <div className="info-item" style={{ textTransform: 'capitalize' }}>
+              {item.nombre}
+            </div>
+            <div className="info-item" style={{ textTransform: 'uppercase' }}>
+              {item.placa}
             </div>
             <img
-              onClick={() => handleDeleteItem(index)}
-              src={DeleteIcon}
+              onClick={() => handleShow2(item)}
+              src={EyeIcon}
               style={{
                 width: '18px',
                 height: '18px',

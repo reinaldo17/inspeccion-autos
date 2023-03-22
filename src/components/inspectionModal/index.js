@@ -12,26 +12,43 @@ export default function InspectionModal(props) {
     handleSubmit,
     watch,
     control,
+    reset,
     formState: { errors },
-  } = useForm();
-
-  const {
-    register: register1,
-    handleSubmit: handleSubmit1,
-    watch: watch1,
-    errors: errors1,
-    setValue: setValue1,
-    setError: setError1,
-    control: control1,
   } = useForm();
 
   const [dataClient, setDataClient] = useState(null);
 
-  const { show, handleClose } = props;
+  const { show, handleClose, inspectionSelected, onSubmit2 } = props;
 
   const onSubmit = (data) => {
-    console.log(data);
-    handleClose();
+    const dataInspection = inspectionSelected;
+    if (
+      inspectionSelected.trabajos === undefined ||
+      inspectionSelected.trabajos === null
+    ) {
+      const work = [
+        {
+          descriptionTaller: data.descripcionTaller,
+          descriptionExtern: data.descripcionProvider,
+        },
+      ];
+      dataInspection.trabajos = work;
+      onSubmit2(dataInspection);
+      reset();
+      handleClose();
+    } else {
+      let arrayWorks = inspectionSelected.trabajos;
+      const work = {
+        descriptionTaller: data.descripcionTaller,
+        descriptionExtern: data.descripcionProvider,
+      };
+      arrayWorks.push(work);
+      dataInspection.trabajos = arrayWorks;
+      console.log(dataInspection);
+      onSubmit2(dataInspection);
+      reset();
+      handleClose();
+    }
   };
 
   return (
@@ -44,7 +61,7 @@ export default function InspectionModal(props) {
           onSubmit={handleSubmit(onSubmit)}
           className="form-vehicle modal-form"
         >
-          <div className="container-inputs-3">
+          {/* <div className="container-inputs-3">
             <div className="input-label">
               <label>Nro Placa</label>
               <input {...register('placa')} />
@@ -67,7 +84,7 @@ export default function InspectionModal(props) {
                 <option value="other">other</option>
               </select>
             </div>
-          </div>
+          </div> */}
 
           <div className="input-label-fullscreen">
             <label>Descripción Trabajo Realizado en Nuestro Taller</label>

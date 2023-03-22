@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import Select from 'react-select';
 import './styles.scss';
-import TableWorks from '../tableWorks';
+import TableInspections from '../tableInspections';
 import TextField from '@mui/material/TextField';
 import AddIcon from '../../assets/add.png';
 import VehicleModal from '../vehicleModal';
-import InspectionModal from '../inspectionModal';
 import { createInspection, getInspections } from '../../aplication/api';
 
 export default function InspectionHome(props) {
@@ -36,10 +35,6 @@ export default function InspectionHome(props) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const [show2, setShow2] = useState(false);
-
-  const handleClose2 = () => setShow2(false);
-
   const handleShow2 = (item) => {
     console.log(item);
     setInspectionSelected(item);
@@ -63,7 +58,6 @@ export default function InspectionHome(props) {
         setVehicleId={setVehicleId}
         setOpenVehicle={setOpenVehicle}
       />
-      <InspectionModal show={show2} handleClose={handleClose2} />
 
       <form onSubmit={handleSubmit(onSubmit)} className="form-vehicle">
         <h6 className="title-section-form">Inspecciones</h6>
@@ -101,7 +95,7 @@ export default function InspectionHome(props) {
         <div>
           {/* <br />
           <h6 className="title-section-form">Vehiculos</h6> */}
-          <TableWorks
+          <TableInspections
             handleShow={handleShow}
             handleShow2={handleShow2}
             data={listInspection}

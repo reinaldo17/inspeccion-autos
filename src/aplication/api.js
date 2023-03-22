@@ -23,9 +23,18 @@ export const createInspection = async (obj) => {
 };
 
 // UPDATE
-export const updateInspection = async (id, obj) => {
+export const updateInspection = async (
+  id,
+  obj,
+  setOpen,
+  setInspectionSelected,
+  setOpenVehicle
+) => {
+  setOpen(true);
   const colRef = collection(db, 'inspections');
   await updateDoc(doc(colRef, id), obj);
+  getItemById(id, setInspectionSelected, setOpenVehicle, setOpen);
+  setOpen(false);
 };
 
 // READ

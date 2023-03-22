@@ -43,10 +43,21 @@ export default function FormVehicle(props) {
   const onSubmit = (data) => {
     console.log(vehicleId);
     console.log(data);
-    updateInspection(vehicleId, data);
+    updateInspection(
+      vehicleId,
+      data,
+      setOpen,
+      setInspectionSelected,
+      setOpenVehicle
+    );
   };
 
   const [show2, setShow2] = useState(false);
+
+  const [showCreateWork, setShowCreateWork] = useState(false);
+
+  const handleCloseCreateWork = () => setShowCreateWork(false);
+  const handleShowCreateWork = () => setShowCreateWork(true);
 
   const handleClose2 = () => setShow2(false);
   const handleShow2 = () => setShow2(true);
@@ -100,7 +111,12 @@ export default function FormVehicle(props) {
 
   return (
     <>
-      <InspectionModal show={show2} handleClose={handleClose2} />
+      <InspectionModal
+        show={showCreateWork}
+        handleClose={handleCloseCreateWork}
+        inspectionSelected={inspectionSelected}
+        onSubmit2={onSubmit}
+      />
       {openVehicle ? (
         <>
           {inspectionSelected && (
@@ -236,6 +252,9 @@ export default function FormVehicle(props) {
                   border: 'none',
                   fontSize: '12px',
                   background: '#fcbd43',
+                  outline: 'none',
+                  border: 'none',
+                  boxShadow: 'none',
                 }}
               >
                 Guardar Cambios
@@ -243,7 +262,12 @@ export default function FormVehicle(props) {
               <div>
                 <br />
                 <h6 className="title-section-form">Trabajos Realizados</h6>
-                <TableWorks handleShow2={handleShow2} />
+                <TableWorks
+                  handleShow2={handleShowCreateWork}
+                  data={inspectionSelected.trabajos}
+                  inspectionSelected={inspectionSelected}
+                  onSubmit={onSubmit}
+                />
                 <Button
                   variant="secondary"
                   onClick={() => {
