@@ -64,7 +64,7 @@ export default function FormVehicle(props) {
 
   useEffect(() => {
     getAutoYears(setArrayYears);
-  }, []);
+  }, [vehicleId]);
 
   useEffect(() => {
     if (vehicleId) {
@@ -150,61 +150,58 @@ export default function FormVehicle(props) {
                 </div>
                 <div className="input-label">
                   <label>Marca</label>
-                  {selectedMark && (
-                    <select
-                      {...register('marca')}
-                      onChange={(e) => handlerMark(e.target.value)}
-                      defaultValue={inspectionSelected.marca}
-                    >
-                      <option value=""></option>
-                      {arrayMarks?.map((item, index) => {
-                        return (
-                          <option key={index} value={item.VALOR}>
-                            {item.DESCRIP}
-                          </option>
-                        );
-                      })}
-                    </select>
-                  )}
+
+                  <select
+                    {...register('marca')}
+                    onChange={(e) => handlerMark(e.target.value)}
+                    defaultValue={inspectionSelected.marca}
+                  >
+                    <option value=""></option>
+                    {arrayMarks?.map((item, index) => {
+                      return (
+                        <option key={index} value={item.VALOR}>
+                          {item.DESCRIP}
+                        </option>
+                      );
+                    })}
+                  </select>
                 </div>
               </div>
               <div className="container-inputs-3">
                 <div className="input-label">
                   <label>Modelo</label>
-                  {selectedModel && (
-                    <select
-                      {...register('modelo')}
-                      onChange={(e) => handlerModel(e.target.value)}
-                      defaultValue={inspectionSelected.modelo}
-                    >
-                      <option value=""></option>
-                      {arrayModels?.map((item, index) => {
-                        return (
-                          <option key={index} value={item.VALOR}>
-                            {item.DESCRIP}
-                          </option>
-                        );
-                      })}
-                    </select>
-                  )}
+
+                  <select
+                    {...register('modelo')}
+                    onChange={(e) => handlerModel(e.target.value)}
+                    defaultValue={inspectionSelected.modelo}
+                  >
+                    <option value=""></option>
+                    {arrayModels?.map((item, index) => {
+                      return (
+                        <option key={index} value={item.VALOR}>
+                          {item.DESCRIP}
+                        </option>
+                      );
+                    })}
+                  </select>
                 </div>
                 <div className="input-label">
                   <label>Versión</label>
-                  {selectedVersion && (
-                    <select
-                      {...register('version')}
-                      defaultValue={inspectionSelected.version}
-                    >
-                      <option value=""></option>
-                      {arrayVersion?.map((item, index) => {
-                        return (
-                          <option key={index} value={item.VALOR}>
-                            {item.DESCRIP}
-                          </option>
-                        );
-                      })}
-                    </select>
-                  )}
+
+                  <select
+                    {...register('version')}
+                    defaultValue={inspectionSelected.version}
+                  >
+                    <option value=""></option>
+                    {arrayVersion?.map((item, index) => {
+                      return (
+                        <option key={index} value={item.VALOR}>
+                          {item.DESCRIP}
+                        </option>
+                      );
+                    })}
+                  </select>
                 </div>
                 <div className="input-label">
                   <label>Color</label>
