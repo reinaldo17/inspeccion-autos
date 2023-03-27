@@ -34,7 +34,10 @@ export default function Home(props) {
       {isLogged ? (
         <>
           <FormVehicle setOpen={setOpen} />
-          <button onClick={logout} className="form-control-button">
+          <button
+            onClick={logout}
+            className="form-control-button logout-button"
+          >
             Cerrar Sesión
           </button>
         </>

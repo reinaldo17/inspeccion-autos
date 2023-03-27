@@ -4,9 +4,10 @@ import './styles.scss';
 import ReactPaginate from 'react-paginate';
 import EyeIcon from '../../assets/view.png';
 import AddIcon from '../../assets/add.png';
+import DeleteIcon from '../../assets/delete.png';
 
 export default function TableInspections(props) {
-  const { handleShow2, handleShow, data } = props;
+  const { handleShow2, handleShow, data, handleDeleteItem } = props;
   const itemsPerPage = 20;
   const [show, setShow] = useState(false);
   const [search, setSearch] = useState('');
@@ -101,17 +102,23 @@ export default function TableInspections(props) {
       </div>
       {currentItems?.map((item, index) => {
         return (
-          <div
-            key={index}
-            onClick={() => handleShow2(item)}
-            className="item-mailbox"
-          >
+          <div key={index} className="item-mailbox">
             <div className="info-item" style={{ textTransform: 'capitalize' }}>
               {item.nombre}
             </div>
             <div className="info-item" style={{ textTransform: 'uppercase' }}>
               {item.placa}
             </div>
+            <img
+              onClick={() => handleDeleteItem(item)}
+              src={DeleteIcon}
+              style={{
+                width: '18px',
+                height: '18px',
+                margin: 'auto',
+                marginRight: 0,
+              }}
+            />
             <img
               onClick={() => handleShow2(item)}
               src={EyeIcon}

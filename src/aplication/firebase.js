@@ -12,7 +12,6 @@ const firebaseConfig = {
   projectId: process.env.REACT_APP_PROJECT_ID,
   storageBucket: process.env.REACT_APP_PROJECT_ID + '.appspot.com',
 };
-
 const firebaseApp = initializeApp(firebaseConfig);
 export const db = getFirestore();
 export const auth = getAuth(firebaseApp);

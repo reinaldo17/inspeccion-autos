@@ -74,9 +74,12 @@ export const getItemById = async (
 };
 
 // DELETE
-export const deleteItem = async (id) => {
+export const deleteItem = async (id, setListInspection, setOpen) => {
+  setOpen(true);
   const colRef = collection(db, 'inspections');
   await deleteDoc(doc(colRef, id));
+  setOpen(false);
+  getInspections(setListInspection);
 };
 
 const getArrayFromCollection = (collection) => {

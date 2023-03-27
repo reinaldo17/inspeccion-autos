@@ -6,7 +6,11 @@ import TableInspections from '../tableInspections';
 import TextField from '@mui/material/TextField';
 import AddIcon from '../../assets/add.png';
 import VehicleModal from '../vehicleModal';
-import { createInspection, getInspections } from '../../aplication/api';
+import {
+  createInspection,
+  getInspections,
+  deleteItem,
+} from '../../aplication/api';
 
 export default function InspectionHome(props) {
   const {
@@ -49,6 +53,12 @@ export default function InspectionHome(props) {
   useEffect(() => {
     getInspections(setListInspection);
   }, []);
+
+  const handleDeleteItem = (item) => {
+    if (window.confirm('¿Estás seguro que desea Eliminar este Trabajo?')) {
+      deleteItem(item.id, setListInspection, setOpen);
+    }
+  };
 
   return (
     <>
@@ -99,6 +109,7 @@ export default function InspectionHome(props) {
             handleShow={handleShow}
             handleShow2={handleShow2}
             data={listInspection}
+            handleDeleteItem={handleDeleteItem}
           />
         </div>
       </form>

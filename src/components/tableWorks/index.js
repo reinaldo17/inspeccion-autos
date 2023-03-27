@@ -106,6 +106,14 @@ export default function TableWorks(props) {
             className="item-mailbox2"
           >
             <div>
+              {item.fecha && (
+                <div
+                  className="info-item"
+                  style={{ textTransform: 'capitalize' }}
+                >
+                  ·Fecha: {item.fecha}
+                </div>
+              )}
               {item.descriptionTaller && (
                 <div
                   className="info-item"

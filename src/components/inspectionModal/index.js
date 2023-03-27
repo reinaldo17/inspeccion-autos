@@ -30,6 +30,7 @@ export default function InspectionModal(props) {
         {
           descriptionTaller: data.descripcionTaller,
           descriptionExtern: data.descripcionProvider,
+          fecha: data.fecha,
         },
       ];
       dataInspection.trabajos = work;
@@ -41,6 +42,7 @@ export default function InspectionModal(props) {
       const work = {
         descriptionTaller: data.descripcionTaller,
         descriptionExtern: data.descripcionProvider,
+        fecha: data.fecha,
       };
       arrayWorks.push(work);
       dataInspection.trabajos = arrayWorks;
@@ -85,7 +87,10 @@ export default function InspectionModal(props) {
               </select>
             </div>
           </div> */}
-
+          <div className="input-label-fullscreen">
+            <label>Fecha</label>
+            <input type="date" {...register('fecha')} />
+          </div>
           <div className="input-label-fullscreen">
             <label>Descripción Trabajo Realizado en Nuestro Taller</label>
             <textarea rows="3" {...register('descripcionTaller')} />
